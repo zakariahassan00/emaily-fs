@@ -26,26 +26,21 @@ passport.use(
       callbackURL: "/auth/google/callback",
       proxy: true
     },
-    (accessToken, refreshToken, profile, done) => {
+    async (accessToken, refreshToken, profile, done) => {
       // the action after users permission
 
-      User.findOne({ googleId: profile.id }).then(existingUser => {
-        if (existingUser) {
-          // if we found the record we do nothing
-          // tell passport that we are done
-          done(null, existingUser);
-        } else {
-          // if we didn`t found the record register it
+      const existingUser = await User.findOne({ googleId: profile.id });
+      if (existingUser) {
+        // if we found the record we do nothing
+        // tell passport that we are done
+        return done(null, existingUser);
+      }
+      // if we didn`t found the record register it
 
-          // note: when create new model instance this is ASYNC operation so me make sure it done
-          // before we call done
-          new User({
-            googleId: profile.id
-          })
-            .save()
-            .then(newUser => done(null, newUser));
-        }
-      });
+      // note: when create new model instance this is ASYNC operation so me make sure it done
+      // before we call done
+      const newUser = await new User({ googleId: profile.id }).save();
+      done(null, newUser);
     }
   )
 );
