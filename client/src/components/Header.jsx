@@ -25,7 +25,7 @@ class Header extends Component {
             <Payments />
           </li>,
           <li key="2">
-            <a className="waves-effect waves-light btn" href="/api/logout">
+            <a className="teal waves-effect waves-light btn" href="/api/logout">
               Logout
             </a>
           </li>

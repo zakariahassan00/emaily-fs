@@ -5,8 +5,9 @@ const cookieSession = require("cookie-session");
 const passport = require("passport");
 const keys = require("./config/keys");
 
-// define the users model in mongoose
+// ====> MODELS
 require("./models/User");
+require("./models/Survey");
 
 // connect mongoose to remote MongoDb
 mongoose.connect(keys.mongoURI);
@@ -32,12 +33,12 @@ app.use(passport.session());
 // passport google strategy
 require("./services/passport");
 
-// google OAuth flow (routes)
+// ====> ROUTES
 require("./routes/authRoutes")(app);
-
-// stripe billg flow (routes)
 require("./routes/billingRoutes")(app);
+require("./routes/surveyRoutes")(app);
 
+// ====> DEPLOYMENT SETTINGS
 // deployment with react app settings
 if (process.env.NODE_ENV === "production") {
   // express will serve up production assets like our main.js file, or main.css file!.

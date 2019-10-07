@@ -1,14 +1,13 @@
 import React, { Component } from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Header from "./Header";
 import { connect } from "react-redux";
 import * as actions from "../actions";
 import Dashboard from "./Dashboard";
 import Landing from "./Landing";
+import SurveyNew from "./surveys/SurveyNew";
 
 class App extends Component {
-  state = {};
-
   componentDidMount() {
     // do initial ajax calls !!
     this.props.fetchUser();
@@ -16,17 +15,16 @@ class App extends Component {
 
   render() {
     return (
-      <div className="">
-        <BrowserRouter>
-          <div>
-            <Header />
-            <div className="container">
-              <Route exact path="/" component={Landing} />
-              <Route path="/surveys" component={Dashboard} />
-            </div>
-          </div>
-        </BrowserRouter>
-      </div>
+      <BrowserRouter>
+        <Header />
+        <div className="container">
+          <Switch>
+            <Route exact path="/" component={Landing} />
+            <Route path="/surveys/new" component={SurveyNew} />
+            <Route path="/surveys" component={Dashboard} />
+          </Switch>
+        </div>
+      </BrowserRouter>
     );
   }
 }
